@@ -1,4 +1,6 @@
 {
+	"publisher": "琉璃",
+	"repository": "https://github.com/glazec/hexo-post-head-generator",
 	"name": "hexo-post-head-generator",
 	"displayName": "hexo post head generator",
 	"description": "autimatically generate the head of the hexo ",
@@ -10,14 +12,14 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:extension.helloWorld"
+		"onCommand:extension.addHexoSnippet"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "extension.helloWorld",
-				"title": "Hello World"
+				"command": "extension.addHexoSnippet",
+				"title": "Add Hexo Snippet"
 			}
 		]
 	},
