@@ -7,6 +7,7 @@ import * as util from 'util';
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 const readFile = util.promisify(fs.readFile)
+const readdir = util.promisify(fs.readdir)
 export function activate(context: vscode.ExtensionContext) {
 
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
@@ -23,7 +24,7 @@ export function activate(context: vscode.ExtensionContext) {
 		let hexoSnippet =new vscode.SnippetString(snippetString);
 		var editor = vscode.window.activeTextEditor;
 		editor.insertSnippet(hexoSnippet,new vscode.Position(1,1));
-		let all_posts =await fs.readdir('C:\\Users\\glze\\Documents\\blog\\hexo\\source\\_posts\\',()=>vscode.window.showInformationMessage(all_posts[1]));
+		let all_posts =await readdir('C:\\Users\\glze\\Documents\\blog\\hexo\\source\\_posts\\',()=>{vscode.window.showInformationMessage("readdir")});
 		vscode.window.showInformationMessage(all_posts[1]);
 
 		let buffer = await readFile(require.resolve('C:\\Users\\glze\\Documents\\blog\\hexo\\source\\_posts\\Ba.md'))
