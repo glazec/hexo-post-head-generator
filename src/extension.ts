@@ -22,6 +22,14 @@ function snippetInsert(snippet:string){
 	}
 }
 
+function concatList(raw:string[],refined:string[]){
+	raw.forEach(element => {
+		if(!element.includes(":")){
+		refined.push(element)}
+	});
+	return refined
+}
+
 //remember to put await for the funciton
 // 
 export function activate(context: vscode.ExtensionContext) {
@@ -45,16 +53,36 @@ export function activate(context: vscode.ExtensionContext) {
 		file = ["bA.md"]
 		let tag:string[] = [];
 		let category:string[] = [];
-		file.forEach(async element => {
-			let buffer = await readFile(require.resolve(dir+element))
-			let RawTag=buffer.toString().split("tags")[1].split("categories")[0].split("-").splice(0,1)
-			let RawCategory = buffer.toString().split("categories")[1].split("comments")[0].split("-").splice(0,1)
-			tag.concat(RawTag)
-			category.concat(RawCategory)
+
+		//file contains bunch of really file url
+		file.forEach(element => {
+			readFile(require.resolve(dir+element)).then(buffer=>{
+				snippetInsert(buffer.toString());
+				let RawTag = buffer.toString().split("tags")[1].split("categories")[0].split("-")
+				tag=concatList(RawTag,tag);
+				// category.concat(buffer.toString().split("categories")[1].split("comments")[0].split("-"));
+				vscode.window.showInformationMessage(tag.join(","));
+				// vscode.window.showInformationMessage(category.join(","));
+
+			});
+		})
+			
+
+			// let buffer = readFile(require.resolve(dir+element)).then(()=>{
+			// 	tag.concat(buffer.toString().split("tags")[1].split("categories")[0].split("-").splice(0,1));
+			// 	category.concat(buffer.toString().split("categories")[1].split("comments")[0].split("-").splice(0,1));
+			// 	vscode.window.showInformationMessage(tag.join(","));
+			// 	vscode.window.showInformationMessage(category.join(","));
+
+			// });
+
+			// let RawTag=buffer.toString().split("tags")[1].split("categories")[0].split("-").splice(0,1)
+			
+			// tag.concat(RawTag)
+			// category.concat(RawCategory)
 			// vscode.window.showInformationMessage(content)
-		});
-		vscode.window.showInformationMessage(tag.join(","));
-		vscode.window.showInformationMessage(category.join(","));
+		
+		
 
 		// vscode.window.showInformationMessage(file[1]);
 		// let file = ["Bs.md"]
