@@ -25,8 +25,10 @@ function snippetInsert(snippet:string){
 function concatList(raw:string[],refined:string[]){
 	raw.forEach(element => {
 		if(!element.includes(":")){
-		refined.push(element)}
+		refined.push(element)
+		}
 	});
+	
 	return refined
 }
 
@@ -50,66 +52,21 @@ export function activate(context: vscode.ExtensionContext) {
 		snippetInsert("concise version");
 		
 		let file =await readdir(dir);
-		file = ["bA.md"]
+		file.splice(file.indexOf(".vscode"),1)
 		let tag:string[] = [];
 		let category:string[] = [];
 
 		//file contains bunch of really file url
-		file.forEach(element => {
+		await file.forEach(element => {
 			readFile(require.resolve(dir+element)).then(buffer=>{
-				snippetInsert(buffer.toString());
-				let RawTag = buffer.toString().split("tags")[1].split("categories")[0].split("-")
-				tag=concatList(RawTag,tag);
-				// category.concat(buffer.toString().split("categories")[1].split("comments")[0].split("-"));
-				vscode.window.showInformationMessage(tag.join(","));
-				// vscode.window.showInformationMessage(category.join(","));
-
+				tag=concatList(buffer.toString().split("tags")[1].split("categories")[0].split("-"),tag);
+				category=concatList(buffer.toString().split("categories")[1].split("comments")[0].split("-"),category)
 			});
-		})
-			
-
-			// let buffer = readFile(require.resolve(dir+element)).then(()=>{
-			// 	tag.concat(buffer.toString().split("tags")[1].split("categories")[0].split("-").splice(0,1));
-			// 	category.concat(buffer.toString().split("categories")[1].split("comments")[0].split("-").splice(0,1));
-			// 	vscode.window.showInformationMessage(tag.join(","));
-			// 	vscode.window.showInformationMessage(category.join(","));
-
-			// });
-
-			// let RawTag=buffer.toString().split("tags")[1].split("categories")[0].split("-").splice(0,1)
-			
-			// tag.concat(RawTag)
-			// category.concat(RawCategory)
-			// vscode.window.showInformationMessage(content)
-		
-		
-
-		// vscode.window.showInformationMessage(file[1]);
-		// let file = ["Bs.md"]
-		// vscode.window.showInformationMessage(file[0])
-		//filter
-		// for(let i in file){
-		// 	if (i.indexOf("md")!==-1){
-		// 		vscode.window.showInformationMessage("it contain md")
-				// file.splice(file.indexOf(i),1,dir+i)
-			// }
-			// else if (i.includes("markdown")){
-			// 	file.splice(file.indexOf(i),1,dir+i)
-			// }
-			// else{
-			// 	file.splice(file.indexOf(i),1)
-			// }
-		// }; 
-		// file = [dir+"bA.md"]
-		
-		// vscode.window.showInformationMessage(file[1]);
-		// let buffer = await readFile(require.resolve(file[0]))
-		// vscode.window.showInformationMessage(buffer.toString())
+		});
+		snippetInsert(tag.join(","))
+		snippetInsert(category.join(","))
 
 
-		// let buffer = await readFile(require.resolve('C:\\Users\\glze\\Documents\\blog\\hexo\\source\\_posts\\Ba.md'))
-		// textEdit.insert(new vscode.Position(1,1),"absere");
-		// vscode.window.showInformationMessage(buffer.toString());
 	});
 
 	context.subscriptions.push(disposable);
