@@ -23,6 +23,7 @@ function snippetInsert(snippet:string){
 }
 
 //remember to put await for the funciton
+// 
 export function activate(context: vscode.ExtensionContext) {
 
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
@@ -36,12 +37,49 @@ export function activate(context: vscode.ExtensionContext) {
 		// The code you place here will be executed every time your command is executed
 		// Display a message box to the user
 
+		//check for the url
+		let dir='C:\\Users\\glze\\Documents\\blog\\hexo\\source\\_posts\\'
 		snippetInsert("concise version");
 		
-		let all_posts =await readdir('C:\\Users\\glze\\Documents\\blog\\hexo\\source\\_posts\\');
-		vscode.window.showInformationMessage(all_posts[1]);
+		let file =await readdir(dir);
+		file = ["bA.md"]
+		let tag:string[] = [];
+		let category:string[] = [];
+		file.forEach(async element => {
+			let buffer = await readFile(require.resolve(dir+element))
+			let RawTag=buffer.toString().split("tags")[1].split("categories")[0].split("-").splice(0,1)
+			let RawCategory = buffer.toString().split("categories")[1].split("comments")[0].split("-").splice(0,1)
+			tag.concat(RawTag)
+			category.concat(RawCategory)
+			// vscode.window.showInformationMessage(content)
+		});
+		vscode.window.showInformationMessage(tag.join(","));
+		vscode.window.showInformationMessage(category.join(","));
 
-		let buffer = await readFile(require.resolve('C:\\Users\\glze\\Documents\\blog\\hexo\\source\\_posts\\Ba.md'))
+		// vscode.window.showInformationMessage(file[1]);
+		// let file = ["Bs.md"]
+		// vscode.window.showInformationMessage(file[0])
+		//filter
+		// for(let i in file){
+		// 	if (i.indexOf("md")!==-1){
+		// 		vscode.window.showInformationMessage("it contain md")
+				// file.splice(file.indexOf(i),1,dir+i)
+			// }
+			// else if (i.includes("markdown")){
+			// 	file.splice(file.indexOf(i),1,dir+i)
+			// }
+			// else{
+			// 	file.splice(file.indexOf(i),1)
+			// }
+		// }; 
+		// file = [dir+"bA.md"]
+		
+		// vscode.window.showInformationMessage(file[1]);
+		// let buffer = await readFile(require.resolve(file[0]))
+		// vscode.window.showInformationMessage(buffer.toString())
+
+
+		// let buffer = await readFile(require.resolve('C:\\Users\\glze\\Documents\\blog\\hexo\\source\\_posts\\Ba.md'))
 		// textEdit.insert(new vscode.Position(1,1),"absere");
 		// vscode.window.showInformationMessage(buffer.toString());
 	});
