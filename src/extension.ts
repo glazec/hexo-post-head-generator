@@ -8,6 +8,21 @@ import * as util from 'util';
 // your extension is activated the very first time the command is executed
 const readFile = util.promisify(fs.readFile)
 const readdir = util.promisify(fs.readdir)
+
+// make the snippet
+function createSnippet(snippet:string){
+	return new vscode.SnippetString(snippet)
+}
+
+function snippetInsert(snippet:string){
+	try {
+		vscode.window.activeTextEditor.insertSnippet(createSnippet(snippet),new vscode.Position(1,1));
+	} catch (error) {
+		vscode.window.showInformationMessage("Please open a file first")
+	}
+}
+
+//remember to put await for the funciton
 export function activate(context: vscode.ExtensionContext) {
 
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
@@ -20,11 +35,10 @@ export function activate(context: vscode.ExtensionContext) {
 	let disposable = vscode.commands.registerCommand('extension.addHexoSnippet',async (context) => {
 		// The code you place here will be executed every time your command is executed
 		// Display a message box to the user
-		let snippetString:string="absere";
-		let hexoSnippet =new vscode.SnippetString(snippetString);
-		var editor = vscode.window.activeTextEditor;
-		editor.insertSnippet(hexoSnippet,new vscode.Position(1,1));
-		let all_posts =await readdir('C:\\Users\\glze\\Documents\\blog\\hexo\\source\\_posts\\',()=>{vscode.window.showInformationMessage("readdir")});
+
+		snippetInsert("concise version");
+		
+		let all_posts =await readdir('C:\\Users\\glze\\Documents\\blog\\hexo\\source\\_posts\\');
 		vscode.window.showInformationMessage(all_posts[1]);
 
 		let buffer = await readFile(require.resolve('C:\\Users\\glze\\Documents\\blog\\hexo\\source\\_posts\\Ba.md'))
