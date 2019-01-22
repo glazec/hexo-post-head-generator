@@ -12,14 +12,25 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:extension.addHexoSnippet"
+		"onCommand:extension.initHexoHead"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
+		"configuration":[
+			{
+				"title": "Init hexo head",
+				"properties": {
+					"initHexoHead.postsPath":{
+						"type":"string",
+						"description": "The path of the Hexo _posts folder"
+					}
+				}
+			}
+		],
 		"commands": [
 			{
-				"command": "extension.addHexoSnippet",
-				"title": "Add Hexo Snippet"
+				"command": "extension.initHexoHead",
+				"title": "Init hexo head"
 			}
 		]
 	},
