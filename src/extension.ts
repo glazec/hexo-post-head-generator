@@ -9,10 +9,17 @@ import * as util from 'util';
 const readFile = util.promisify(fs.readFile)
 const readdir = util.promisify(fs.readdir)
 
-// make the snippet
+// #region make the snippet
 function createSnippet(snippet:string){
 	return new vscode.SnippetString(snippet)
 }
+//#endregion
+
+// #region uniquelize the tag and category list
+function uniquelize(raw:string []){
+	return Array.from(new Set(raw));
+}
+// #endregion
 
 function snippetInsert(snippet:string){
 	try {
@@ -22,14 +29,16 @@ function snippetInsert(snippet:string){
 	}
 }
 
-function concatList(raw:string[],refined:string[]){
+//region concat two list and uniquelize them
+function smartConcatList(raw:string[],refined:string[]){
 	raw.forEach(element => {
 		if(!element.includes(":")){
-		refined.push(element)
+			let index=element.indexOf("\n")
+		refined.push(element.trim().substring(0,index-2));
 		}
 	});
 	
-	return refined
+	return uniquelize(refined)
 }
 
 //remember to put await for the funciton
@@ -49,22 +58,22 @@ export function activate(context: vscode.ExtensionContext) {
 
 		//check for the url
 		let dir='C:\\Users\\glze\\Documents\\blog\\hexo\\source\\_posts\\'
-		snippetInsert("concise version");
-		
 		let file =await readdir(dir);
 		file.splice(file.indexOf(".vscode"),1)
+		// file = ["bA.md"]
 		let tag:string[] = [];
 		let category:string[] = [];
 
 		//file contains bunch of really file url
-		await file.forEach(element => {
-			readFile(require.resolve(dir+element)).then(buffer=>{
-				tag=concatList(buffer.toString().split("tags")[1].split("categories")[0].split("-"),tag);
-				category=concatList(buffer.toString().split("categories")[1].split("comments")[0].split("-"),category)
+		file.forEach(async element => {
+			await readFile(require.resolve(dir+element)).then(buffer=>{
+				//tag=concatList(buffer.toString().split("tags")[1].split("categories")[0].split("-"),tag);
+				category=smartConcatList(buffer.toString().split("categories")[1].split("comments")[0].split("-"),category)
+				vscode.window.showInformationMessage((category).join(","))
 			});
 		});
-		snippetInsert(tag.join(","))
-		snippetInsert(category.join(","))
+		
+		snippetInsert(category.join(","));
 
 
 	});
