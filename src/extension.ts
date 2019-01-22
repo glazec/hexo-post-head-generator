@@ -34,8 +34,9 @@ function smartConcatList(raw:string[],refined:string[]){
 	raw.forEach(element => {
 		if(!element.includes(":")){
 			let index=element.indexOf("\n")
+			if(element.trim().substring(0,index-2).length>1){
 		refined.push(element.trim().substring(0,index-2));
-		}
+		}}
 	});
 	
 	return uniquelize(refined)
@@ -65,15 +66,18 @@ export function activate(context: vscode.ExtensionContext) {
 		let category:string[] = [];
 
 		//file contains bunch of really file url
-		file.forEach(async element => {
-			await readFile(require.resolve(dir+element)).then(buffer=>{
-				//tag=concatList(buffer.toString().split("tags")[1].split("categories")[0].split("-"),tag);
+		file.forEach(element => {
+			readFile(require.resolve(dir+element)).then(buffer=>{
+				tag=smartConcatList(buffer.toString().split("tags")[1].split("categories")[0].split("-"),tag);
 				category=smartConcatList(buffer.toString().split("categories")[1].split("comments")[0].split("-"),category)
+				if (file.indexOf(element)===file.length-1){
+					let resultstring=`---%0Atitle%3A%20%20%24%7B1%3A%24TM_FILENAME_BASE%7D%0Atags%3A%0A-%20%24%7B2%7C${tag.join(",")}%7C%7D%0Acategories%3A%0A-%20%24%7B3%7C${category.join(",")}%7C%7D%0Acomment%3A%20true%0Adate%3A%20%24%7B4%3A%24CURRENT_YEAR-%24CURRENT_MONTH-%24CURRENT_DATE%7D%0A---%0A%24%7B5%3Aexcerpt%7D%0A%3C%21--%20more%20--%3E`
+					snippetInsert(unescape(resultstring));
+				}
 				vscode.window.showInformationMessage((category).join(","))
 			});
 		});
 		
-		snippetInsert(category.join(","));
 
 
 	});
