@@ -2,8 +2,8 @@
 	"publisher": "glaze",
 	"repository": "https://github.com/glazec/hexo-post-head-generator",
 	"name": "hexo-post-head-generator",
-	"displayName": "hexo post head generator",
-	"description": "autimatically generate the head of the hexo ",
+	"displayName": "Hexo Post Head Generator",
+	"description": "Autimatically Generate Head of Hexo Posts",
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.30.0"
@@ -18,7 +18,7 @@
 	"contributes": {
 		"configuration": [
 			{
-				"title": "Init hexo head",
+				"title": "Init Hexo Head",
 				"properties": {
 					"initHexoHead.postsPath": {
 						"type": "string",
@@ -30,7 +30,7 @@
 		"commands": [
 			{
 				"command": "extension.initHexoHead",
-				"title": "Init hexo head"
+				"title": "Init Hexo Head"
 			}
 		]
 	},
