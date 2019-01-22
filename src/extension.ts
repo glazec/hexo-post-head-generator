@@ -3,7 +3,6 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as util from 'util';
-import localConfig from './setting';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -24,7 +23,8 @@ function uniquelize(raw:string []){
 
 function snippetInsert(snippet:string){
 	try {
-		vscode.window.activeTextEditor.insertSnippet(createSnippet(snippet),new vscode.Position(1,1));
+		let editor=vscode.window.activeTextEditor;
+		editor!.insertSnippet(createSnippet(snippet),new vscode.Position(1,1));
 	} catch (error) {
 		vscode.window.showInformationMessage("Please open a file first")
 	}
@@ -54,11 +54,11 @@ export function activate(context: vscode.ExtensionContext) {
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('extension.initHexoHead',async (context) => {
+	let disposable = vscode.commands.registerCommand('extension.initHexoHead',async () => {
 		// The code you place here will be executed every time your command is executed
 		// Display a message box to the user
 		//check for the url
-		let dir = vscode.workspace.getConfiguration('initHexoHead').get("postsPath");
+		let dir:string = vscode.workspace.getConfiguration('initHexoHead').get("postsPath")!.toString()
 		let file =await readdir(dir);
 		file.splice(file.indexOf(".vscode"),1)
 		// file = ["bA.md"]
