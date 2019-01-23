@@ -18,8 +18,13 @@ If you use hexo as blog, writing the head of post is really annoying. Snippet ca
 
 1. Long execution time
 
+## To Do List
+
+- [ ] Add Selection For Image File
+- [ ] Add selection For Audio File
+
 ## Release Notes
 
-### 1.0.0
+### 0.01
 
 Initial release of Hexo post head generator
