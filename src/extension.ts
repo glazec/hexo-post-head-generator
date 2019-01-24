@@ -60,7 +60,11 @@ export function activate(context: vscode.ExtensionContext) {
 		//check for the url
 		let dir:string = vscode.workspace.getConfiguration('initHexoHead').get("postsPath")!.toString()
 		let file =await readdir(dir);
-		file.splice(file.indexOf(".vscode"),1)
+		try {
+			file.splice(file.indexOf(".vscode"),1)
+		} catch (error) {
+			
+		}
 		// file = ["bA.md"]
 		let tag:string[] = [];
 		let category:string[] = [];
@@ -81,7 +85,36 @@ export function activate(context: vscode.ExtensionContext) {
 
 	});
 
-	context.subscriptions.push(disposable);
+	let audio = vscode.commands.registerCommand('extension.hexoAudio',async ()=>{
+		let audioDir:string = vscode.workspace.getConfiguration('initHexoHead').get("audioPath")!.toString()
+		let serverAudioPath:string = vscode.workspace.getConfiguration('initHexoHead').get("serverAudioPath")!.toString()
+
+		let audioFile = await readdir (audioDir)
+		try {
+			audioFile.splice(audioFile.indexOf(".vscode"),1)
+		} catch (error) {
+			
+		}
+		let resultstring = `%7B%25%20aplayer%20%22%24%7B1%7C${audioFile.join(",")}%7C%7D%22%20%22%24%7B2%3Aauthor%20name%7D%20%22${serverAudioPath}%24%7B1%7C${audioFile.join(",")}%7C%7D%22%20%25%7D`
+
+		snippetInsert(unescape(resultstring))
+	});
+	
+	
+	let image = vscode.commands.registerCommand('extension.hexoImage',async ()=>{
+		let imageDir:string = vscode.workspace.getConfiguration('initHexoHead').get("imagePath")!.toString()
+		let serverImagePath:string = vscode.workspace.getConfiguration('initHexoHead').get("serverImagePath")!.toString()
+		let html:string = vscode.workspace.getConfiguration('initHexoHead').get("imageHtmlSetting")!.toString()
+		let imageFile = await readdir(imageDir)
+		try {
+			imageFile.splice(imageFile.indexOf(".vscode"),1)
+		} catch (error) {
+			
+		}
+		let resultstring = `%3Ccenter%3E%3Cimg%20src%3D%${serverImagePath}%24%7B1%3A%7C${imageFile.join(",")}%7C%7D${html}%22%3E%3C/center%3E`
+		snippetInsert(resultstring)
+	})
+	context.subscriptions.push(disposable,audio,image);
 }
 
 // this method is called when your extension is deactivated
