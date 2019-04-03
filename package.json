@@ -23,6 +23,22 @@
 					"initHexoHead.postsPath": {
 						"type": "string",
 						"description": "The path of the Hexo _posts folder"
+					},
+					"initHexoHead.audioPath": {
+						"type": "string",
+						"description": "The path of the audio resource folder"
+					},
+					"initHexoHead.serverAudioPath": {
+						"type": "string",
+						"description": "The audio resource root dir in server"
+					},
+					"initHexoHead.imagePath": {
+						"type": "string",
+						"description": "The path of the image resource folder"
+					},
+					"initHexoHead.serverImagePath": {
+						"type": "string",
+						"description": "The image resource root dir in server"
 					}
 				}
 			}
