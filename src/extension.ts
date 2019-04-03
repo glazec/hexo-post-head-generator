@@ -55,9 +55,8 @@ export function activate(context: vscode.ExtensionContext) {
   // The command has been defined in the package.json file
   // Now provide the implementation of the command with registerCommand
   // The commandId parameter must match the command field in package.json
-  context.subscriptions.push(vscode.commands.registerCommand(
-    "extension.initHexoHead",
-    async () => {
+  context.subscriptions.push(
+    vscode.commands.registerCommand("extension.initHexoHead", async () => {
       // The code you place here will be executed every time your command is executed
       // Display a message box to the user
       //check for the url
@@ -104,12 +103,11 @@ export function activate(context: vscode.ExtensionContext) {
           }
         });
       });
-    }
-  ));
+    })
+  );
 
-  context.subscriptions.push(vscode.commands.registerCommand(
-    "extension.hexoAudio",
-    async () => {
+  context.subscriptions.push(
+    vscode.commands.registerCommand("extension.hexoAudio", async () => {
       let audioDir: string = vscode.workspace
         .getConfiguration("initHexoHead")
         .get("audioPath")!
@@ -118,11 +116,14 @@ export function activate(context: vscode.ExtensionContext) {
         .getConfiguration("initHexoHead")
         .get("serverAudioPath")!
         .toString();
+      if (serverAudioPath.slice(-1) !== "/") {
+        serverAudioPath = serverAudioPath + "/";
+      }
 
       let audioFile = await readdir(audioDir);
-      try {
-        audioFile.splice(audioFile.indexOf(".vscode"), 1);
-      } catch (error) {}
+      // try {
+      //   audioFile.splice(audioFile.indexOf(".vscode"), 1);
+      // } catch (error) {}
       let resultstring = `%7B%25%20aplayer%20%22%24%7B1%7C${audioFile.join(
         ","
       )}%7C%7D%22%20%22%24%7B2%3Aauthor%20name%7D%20%22${serverAudioPath}%24%7B1%7C${audioFile.join(
@@ -130,12 +131,11 @@ export function activate(context: vscode.ExtensionContext) {
       )}%7C%7D%22%20%25%7D`;
 
       snippetInsert(unescape(resultstring));
-    }
-  ));
+    })
+  );
 
-  context.subscriptions.push(vscode.commands.registerCommand(
-    "extension.hexoImage",
-    async () => {
+  context.subscriptions.push(
+    vscode.commands.registerCommand("extension.hexoImage", async () => {
       let imageDir: string = vscode.workspace
         .getConfiguration("initHexoHead")
         .get("imagePath")!
@@ -144,24 +144,27 @@ export function activate(context: vscode.ExtensionContext) {
         .getConfiguration("initHexoHead")
         .get("serverImagePath")!
         .toString();
+        if (serverImagePath.slice(-1) !== "/") {
+          serverImagePath = serverImagePath + "/";
+        }
       let html: string = vscode.workspace
         .getConfiguration("initHexoHead")
         .get("imageHtmlSetting")!
         .toString();
       let imageFile = await readdir(imageDir);
-      try {
-        imageFile.splice(imageFile.indexOf(".vscode"), 1);
-      } catch (error) {}
+      // try {
+      //   imageFile.splice(imageFile.indexOf(".vscode"), 1);
+      // } catch (error) {}
       let resultstring = `%3Ccenter%3E%3Cimg%20src%3D%${serverImagePath}%24%7B1%3A%7C${imageFile.join(
         ","
       )}%7C%7D${html}%22%3E%3C/center%3E`;
       snippetInsert(resultstring);
-    }
-  ));
-//   context.subscriptions.push([disposable, audio, image]);
-//   context.subscriptions.push(disposable);
-//   context.subscriptions.push(audio);
-//   context.subscriptions.push(image);
+    })
+  );
+  //   context.subscriptions.push([disposable, audio, image]);
+  //   context.subscriptions.push(disposable);
+  //   context.subscriptions.push(audio);
+  //   context.subscriptions.push(image);
 }
 
 // this method is called when your extension is deactivated
