@@ -4,7 +4,7 @@
 	"name": "hexo-post-head-generator",
 	"displayName": "Hexo Post Head Generator",
 	"description": "Autimatically Generate Head of Hexo Posts",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"engines": {
 		"vscode": "^1.30.0"
 	},
