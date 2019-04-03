@@ -147,18 +147,22 @@ export function activate(context: vscode.ExtensionContext) {
         if (serverImagePath.slice(-1) !== "/") {
           serverImagePath = serverImagePath + "/";
         }
-      let html: string = vscode.workspace
-        .getConfiguration("initHexoHead")
-        .get("imageHtmlSetting")!
-        .toString();
+      // let html: string = vscode.workspace
+      //   .getConfiguration("initHexoHead")
+      //   .get("imageHtmlSetting")!
+      //   .toString();
       let imageFile = await readdir(imageDir);
+      // imageFile.unshift('')
       // try {
       //   imageFile.splice(imageFile.indexOf(".vscode"), 1);
       // } catch (error) {}
-      let resultstring = `%3Ccenter%3E%3Cimg%20src%3D%${serverImagePath}%24%7B1%3A%7C${imageFile.join(
+      // let resultstring = `%3Ccenter%3E%3Cimg%20src%3D%${serverImagePath}%24%7B1%3A%7C${imageFile.join(
+      //   ","
+      // )}%7C%7D${html}%22%3E%3C/center%3E`;
+      let resultstring = `%3Ccenter%3E%3Cimg%20src%3D%22${serverImagePath}%24%7B1%7C${imageFile.join(
         ","
-      )}%7C%7D${html}%22%3E%3C/center%3E`;
-      snippetInsert(resultstring);
+      )}%7C%7D%22%20width%3D%2280%25%22%20height%3D%2280%25%22%3E%3C/center%3E`;
+      snippetInsert(unescape(resultstring));
     })
   );
   //   context.subscriptions.push([disposable, audio, image]);
