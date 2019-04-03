@@ -55,7 +55,7 @@ export function activate(context: vscode.ExtensionContext) {
   // The command has been defined in the package.json file
   // Now provide the implementation of the command with registerCommand
   // The commandId parameter must match the command field in package.json
-  let disposable = vscode.commands.registerCommand(
+  context.subscriptions.push(vscode.commands.registerCommand(
     "extension.initHexoHead",
     async () => {
       // The code you place here will be executed every time your command is executed
@@ -105,9 +105,9 @@ export function activate(context: vscode.ExtensionContext) {
         });
       });
     }
-  );
+  ));
 
-  let audio = vscode.commands.registerCommand(
+  context.subscriptions.push(vscode.commands.registerCommand(
     "extension.hexoAudio",
     async () => {
       let audioDir: string = vscode.workspace
@@ -131,9 +131,9 @@ export function activate(context: vscode.ExtensionContext) {
 
       snippetInsert(unescape(resultstring));
     }
-  );
+  ));
 
-  let image = vscode.commands.registerCommand(
+  context.subscriptions.push(vscode.commands.registerCommand(
     "extension.hexoImage",
     async () => {
       let imageDir: string = vscode.workspace
@@ -157,8 +157,11 @@ export function activate(context: vscode.ExtensionContext) {
       )}%7C%7D${html}%22%3E%3C/center%3E`;
       snippetInsert(resultstring);
     }
-  );
-  context.subscriptions.push(disposable, audio, image);
+  ));
+//   context.subscriptions.push([disposable, audio, image]);
+//   context.subscriptions.push(disposable);
+//   context.subscriptions.push(audio);
+//   context.subscriptions.push(image);
 }
 
 // this method is called when your extension is deactivated
