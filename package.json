@@ -1,75 +1,79 @@
 {
-	"publisher": "glaze",
-	"repository": "https://github.com/glazec/hexo-post-head-generator",
-	"name": "hexo-post-head-generator",
-	"displayName": "Hexo Post Head Generator",
-	"description": "Autimatically Generate Head of Hexo Posts",
-	"version": "0.1.0",
-	"engines": {
-		"vscode": "^1.30.0"
-	},
-	"categories": [
-		"Other"
-	],
-	"activationEvents": [
-		"onCommand:extension.initHexoHead"
-	],
-	"main": "./out/extension.js",
-	"contributes": {
-		"configuration": [
-			{
-				"title": "Init Hexo Head",
-				"properties": {
-					"initHexoHead.postsPath": {
-						"type": "string",
-						"description": "The path of the Hexo _posts folder"
-					},
-					"initHexoHead.audioPath": {
-						"type": "string",
-						"description": "The path of the audio resource folder"
-					},
-					"initHexoHead.serverAudioPath": {
-						"type": "string",
-						"description": "The audio resource root dir in server"
-					},
-					"initHexoHead.imagePath": {
-						"type": "string",
-						"description": "The path of the image resource folder"
-					},
-					"initHexoHead.serverImagePath": {
-						"type": "string",
-						"description": "The image resource root dir in server"
-					}
-				}
-			}
-		],
-		"commands": [
-			{
-				"command": "extension.initHexoHead",
-				"title": "Init Hexo Head"
-			},
-			{
-				"command": "extension.hexoAudio",
-				"title": "Hexo Audio"
-			},
-			{
-				"command": "extension.hexoImage",
-				"title": "Hexo Image"
-			}
-		]
-	},
-	"scripts": {
-		"vscode:prepublish": "npm run compile",
-		"compile": "tsc -p ./",
-		"watch": "tsc -watch -p ./",
-		"postinstall": "node ./node_modules/vscode/bin/install",
-		"test": "npm run compile && node ./node_modules/vscode/bin/test"
-	},
-	"devDependencies": {
-		"@types/mocha": "^2.2.42",
-		"@types/node": "^8.10.25",
-		"tslint": "^5.12.1",
-		"typescript": "^3.2.4",
-		"vscode": "^1.1.28"
-	}
+  "publisher": "glaze",
+  "repository": "https://github.com/glazec/hexo-post-head-generator",
+  "name": "hexo-post-head-generator",
+  "displayName": "Hexo Post Head Generator",
+  "description": "Autimatically Generate Head of Hexo Posts",
+  "version": "0.1.1",
+  "engines": {
+    "vscode": "^1.30.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:extension.initHexoHead",
+    "onCommand:extension.hexoAudio",
+    "onCommand:extension.hexoImage"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "configuration": [
+      {
+        "title": "Init Hexo Head",
+        "properties": {
+          "initHexoHead": {
+            "postsPath": {
+              "type": "string",
+              "description": "The path of the Hexo _posts folder"
+            },
+            "audioPath": {
+              "type": "string",
+              "description": "The path of the audio resource folder"
+            },
+            "serverAudioPath": {
+              "type": "string",
+              "description": "The audio resource root dir in server"
+            },
+            "imagePath": {
+              "type": "string",
+              "description": "The path of the image resource folder"
+            },
+            "serverImagePath": {
+              "type": "string",
+              "description": "The image resource root dir in server"
+            }
+          }
+        }
+      }
+    ],
+    "commands": [
+      {
+        "command": "extension.initHexoHead",
+        "title": "Init Hexo Head"
+      },
+      {
+        "command": "extension.hexoAudio",
+        "title": "Hexo Audio"
+      },
+      {
+        "command": "extension.hexoImage",
+        "title": "Hexo Image"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "test": "npm run compile && node ./node_modules/vscode/bin/test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^2.2.42",
+    "@types/node": "^8.10.25",
+    "tslint": "^5.12.1",
+    "typescript": "^3.2.4",
+    "vscode": "^1.1.28"
+  }
 }
