@@ -8,6 +8,7 @@ import * as util from 'util';
 // your extension is activated the very first time the command is executed
 const readFile = util.promisify(fs.readFile)
 const readdir = util.promisify(fs.readdir)
+const path  = require('path')
 
 // #region make the snippet
 function createSnippet(snippet:string){
@@ -47,8 +48,7 @@ function smartConcatList(raw:string[],refined:string[]){
 // 
 export function activate(context: vscode.ExtensionContext) {
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
+
 		console.log('Congratulations, your extension "hexo-post-head-generator" is now active!');
 
 	// The command has been defined in the package.json file
@@ -71,7 +71,9 @@ export function activate(context: vscode.ExtensionContext) {
 
 		//file contains bunch of really file url
 		file.forEach(element => {
-			readFile(require.resolve(dir+element)).then(buffer=>{
+			console.log('dir: '+dir);
+			console.log('filename: '+element);
+			readFile(require.resolve(path.join(dir,element))).then(buffer=>{
 				tag=smartConcatList(buffer.toString().split("tags")[1].split("categories")[0].split("-"),tag);
 				category=smartConcatList(buffer.toString().split("categories")[1].split("comments")[0].split("-"),category)
 				if (file.indexOf(element)===file.length-1){
