@@ -37,7 +37,7 @@ function smartConcatList(raw: string[], refined: string[]) {
     if (!element.includes(":")) {
       let index = element.indexOf("\n");
       if (element.trim().substring(0, index - 2).length > 1) {
-        refined.push(element.trim().substring(0, index - 2));
+        refined.push(element.trim().substring(0, index - 1));
       }
     }
   });
